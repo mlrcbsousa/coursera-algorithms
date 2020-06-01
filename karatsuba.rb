@@ -23,8 +23,8 @@ require 'byebug'
 # First Implementation 
 #
 #   Assumptions
-# - both x and y have the same length n
-# - the length n is a power of 2
+# - both x and y have the same length n   # can't once you get to recursion
+# - the length n is a power of 2          # can't once you get to recursion
 #
 #   Restrictions
 # - only multiply single digit integers
@@ -32,9 +32,28 @@ require 'byebug'
 def karatsuba(x, y)
   x_s = x.to_s
   y_s = y.to_s
-  n = x_s.length
-  h = n/2     # Gotcha number 2
-  o = h - 1   # Gotcha number 1
+  n_x = x_s.length
+  n_y = y_s.length
+  return x * y if n_x == 1 && n_y == 1 # base case
+
+  # x and y have the same length
+  n = n_x
+  
+  # Pad zeros on the smaller length number
+  if n_x != n_y
+    dn = (n_x - n_y).abs
+
+    if n_x < n_y
+      n = n_y                 # Gotcha number 3 (using the max but not padding)
+      x_s = '0' * dn + x_s
+    elsif n_x > n_y
+      y_s = '0' * dn + y_s
+    end
+  end
+
+
+  h = n/2             # Gotcha number 2
+  o = h - 1           # Gotcha number 1
 
   # x = 10^(n/2) * a + b
   # y = 10^(n/2) * c + d
@@ -44,13 +63,13 @@ def karatsuba(x, y)
   d = y_s[h..].to_i
 
   # step 1
-  s1 = a * c
+  s1 = karatsuba(a, c)
 
   # step 2
-  s2 = b * d
+  s2 = karatsuba(b, d)
 
   # step 3
-  s3 = (a + b) * (c + d)
+  s3 = karatsuba((a + b), (c + d))
 
   # step 4
   s4 = s3 - s2 - s1
@@ -66,11 +85,39 @@ RSpec.describe self.class do
     described_class.send(:karatsuba, x, y)
   end
 
+  # context '7 and 9' do
+  #   let(:x) { 7 }
+  #   let(:y) { 9 }
+
+  #   it { is_expected.to eq(63) }
+  # end
+
+  context '12 and 56' do
+    let(:x) { 12 }
+    let(:y) { 56 }
+
+    it { is_expected.to eq(672) }
+  end
+
   context '34 and 78' do
     let(:x) { 34 }
     let(:y) { 78 }
 
     it { is_expected.to eq(2652) }
+  end
+
+  context '46 and 134' do
+    let(:x) { 46 }
+    let(:y) { 134 }
+
+    it { is_expected.to eq(6164) }
+  end
+
+  context '134 and 46' do
+    let(:x) { 134 }
+    let(:y) { 46 }
+
+    it { is_expected.to eq(6164) }
   end
 
   context '1234 and 5678' do
