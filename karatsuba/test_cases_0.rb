@@ -4,6 +4,7 @@ require 'byebug'
 require_relative 'karatsuba'
 
 # 2020-06-01 21:15:51 +0200 => 23/34 failures
+# 2020-06-01 22:00:43 +0200 => 0/34 failures
 
 RSpec.describe self.class do
 
