@@ -36,22 +36,21 @@ def karatsuba(x, y)
   return x * y if n_x == 1 && n_y == 1 # base case
 
   # x and y have the same length
-  n = n_x
+  n = n_x + n_x%2                                 # Gotcha number 5
 
-  # Pad zeros on the smaller length number
-  if n_x != n_y
-    dn = (n_x - n_y).abs
-
-    if n_x < n_y
-      n = n_y                 # Gotcha number 3 (using the max but not padding)
-      x_s = '0' * dn + x_s
-    elsif n_x > n_y
-      y_s = '0' * dn + y_s
-    end
+  if n_x < n_y
+    n = n_y + n_y%2                             # Gotcha number 3 (using the max but not padding)
   end
 
-  h = n/2                   # Gotcha number 2
-  o = h - 1                 # Gotcha number 1
+  # Pad zeros to get to a 2^n length
+  dy = n - n_y
+  y_s = '0' * dy + y_s
+
+  dx = n - n_x
+  x_s = '0' * dx + x_s
+
+  h = n/2                                         # Gotcha number 2
+  o = h - 1                                       # Gotcha number 1
 
   # x = 10^(n/2) * a + b
   # y = 10^(n/2) * c + d
@@ -73,5 +72,5 @@ def karatsuba(x, y)
   s4 = s3 - s2 - s1
 
   # step 5
-  (s1 * 10**n) + s2 + (s4 * 10**(h + n%2))  # Gotcha number 4 (no clue why this works)
+  (s1 * 10**n) + s2 + (s4 * 10**h)  # Gotcha number 4 (no clue why this works)  --  had a modulo here before proper padding implementation
 end

@@ -12,7 +12,7 @@ RSpec.describe self.class do
     end
   
     context 'from course files' do
-      filepaths = Dir['../../stanford-algs/testCases/course1/assignment1Multiplication/input*.txt']
+      filepaths = Dir['../stanford-algs/testCases/course1/assignment1Multiplication/input*.txt']
   
       filepaths.each do |filepath|
         output_filepath = filepath.gsub('input', 'output')
