@@ -39,7 +39,7 @@ def karatsuba(x, y)
   n = n_x + n_x%2                                 # Gotcha number 5
 
   if n_x < n_y
-    n = n_y + n_y%2                             # Gotcha number 3 (using the max but not padding)
+    n = n_y + n_y%2                               # Gotcha number 3 (using the max but not padding)
   end
 
   # Pad zeros to get to a 2^n length
