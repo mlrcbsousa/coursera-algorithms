@@ -30,58 +30,58 @@ require 'byebug'
 # - only multiply single digit integers
 
 def karatsuba(x, y)
-    x_s = x.to_s
-    y_s = y.to_s
-    n = x_s.length
-    h = n/2     # Gotcha number 2
-    o = h - 1   # Gotcha number 1
+  x_s = x.to_s
+  y_s = y.to_s
+  n = x_s.length
+  h = n/2     # Gotcha number 2
+  o = h - 1   # Gotcha number 1
 
-    # x = 10^(n/2) * a + b
-    # y = 10^(n/2) * c + d
-    a = x_s[0..o].to_i
-    b = x_s[h..].to_i
-    c = y_s[0..o].to_i
-    d = y_s[h..].to_i
+  # x = 10^(n/2) * a + b
+  # y = 10^(n/2) * c + d
+  a = x_s[0..o].to_i
+  b = x_s[h..].to_i
+  c = y_s[0..o].to_i
+  d = y_s[h..].to_i
 
-    # step 1
-    s1 = a * c
+  # step 1
+  s1 = a * c
 
-    # step 2
-    s2 = b * d
+  # step 2
+  s2 = b * d
 
-    # step 3
-    s3 = (a + b) * (c + d)
+  # step 3
+  s3 = (a + b) * (c + d)
 
-    # step 4
-    s4 = s3 - s2 - s1
+  # step 4
+  s4 = s3 - s2 - s1
 
-    # step 5
-    (s1 * 10**n) + s2 + (s4 * 10**h)
+  # step 5
+  (s1 * 10**n) + s2 + (s4 * 10**h)
 end
 
 
 RSpec.describe self.class do
 
-    subject do
-        described_class.send(:karatsuba, x, y)
-    end
+  subject do
+    described_class.send(:karatsuba, x, y)
+  end
 
-    context '10 and 10' do
-        let(:x) { 10 }
-        let(:y) { 10 }
+  context '34 and 78' do
+    let(:x) { 34 }
+    let(:y) { 78 }
 
-        it { is_expected.to eq(100) }
-    end
+    it { is_expected.to eq(2652) }
+  end
 
-    context '1234 and 5678' do
-        let(:x) { 1234 }
-        let(:y) { 5678 }
+  context '1234 and 5678' do
+    let(:x) { 1234 }
+    let(:y) { 5678 }
 
-        it { is_expected.to eq(7006652) }
-    end
+    it { is_expected.to eq(7006652) }
+  end
 
-    private
+  private
 
-    let(:x) { raise 'You must define a let(:x)!' }
-    let(:y) { raise 'You must define a let(:y)!' }
+  let(:x) { raise 'You must define a let(:x)!' }
+  let(:y) { raise 'You must define a let(:y)!' }
 end
