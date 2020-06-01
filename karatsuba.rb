@@ -38,7 +38,7 @@ def karatsuba(x, y)
 
   # x and y have the same length
   n = n_x
-  
+  # debugger
   # Pad zeros on the smaller length number
   if n_x != n_y
     dn = (n_x - n_y).abs
@@ -51,9 +51,8 @@ def karatsuba(x, y)
     end
   end
 
-
   h = n/2             # Gotcha number 2
-  o = h - 1           # Gotcha number 1
+  o = h - 1                 # Gotcha number 1
 
   # x = 10^(n/2) * a + b
   # y = 10^(n/2) * c + d
@@ -75,7 +74,7 @@ def karatsuba(x, y)
   s4 = s3 - s2 - s1
 
   # step 5
-  (s1 * 10**n) + s2 + (s4 * 10**h)
+  (s1 * 10**n) + s2 + (s4 * 10**(h + n%2))  # no clue why this works
 end
 
 
@@ -85,12 +84,12 @@ RSpec.describe self.class do
     described_class.send(:karatsuba, x, y)
   end
 
-  # context '7 and 9' do
-  #   let(:x) { 7 }
-  #   let(:y) { 9 }
+  context '7 and 9' do
+    let(:x) { 7 }
+    let(:y) { 9 }
 
-  #   it { is_expected.to eq(63) }
-  # end
+    it { is_expected.to eq(63) }
+  end
 
   context '12 and 56' do
     let(:x) { 12 }
