@@ -51,7 +51,7 @@ def karatsuba(x, y)
     end
   end
 
-  h = n/2             # Gotcha number 2
+  h = n/2                   # Gotcha number 2
   o = h - 1                 # Gotcha number 1
 
   # x = 10^(n/2) * a + b
@@ -74,7 +74,7 @@ def karatsuba(x, y)
   s4 = s3 - s2 - s1
 
   # step 5
-  (s1 * 10**n) + s2 + (s4 * 10**(h + n%2))  # no clue why this works
+  (s1 * 10**n) + s2 + (s4 * 10**(h + n%2))  # Gotcha number 4 (no clue why this works)
 end
 
 
@@ -124,6 +124,33 @@ RSpec.describe self.class do
     let(:y) { 5678 }
 
     it { is_expected.to eq(7006652) }
+  end
+
+  context '5077 and 8319' do
+    let(:x) { 5077 }
+    let(:y) { 8319 }
+
+    it { is_expected.to eq(42235563) }
+  end
+
+  context 'from course files' do
+
+    filepaths = Dir['../stanford-algs/testCases/course1/assignment1Multiplication/input*.txt']
+
+    filepaths.each do |filepath|
+      output_filepath = filepath.gsub('input', 'output')
+
+      x, y    = File.read(filepath).split("\n")
+      product = File.read(output_filepath)
+
+      context "#{x} and #{y}" do
+        let(:x) { x.to_i }
+        let(:y) { y.to_i }
+
+        it { is_expected.to eq(product.to_i) }
+      end
+    end
+
   end
 
   private
