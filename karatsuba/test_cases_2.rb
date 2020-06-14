@@ -3,10 +3,10 @@ require 'byebug'
 
 require_relative 'karatsuba'
 
-RSpec.describe self.class do
+RSpec.describe 'Karatsuba' do
 
     subject do
-      described_class.send(:karatsuba, x, y)
+      karatsuba(x, y)
     end
 
     context '50 and 83' do
